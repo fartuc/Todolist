@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 export function Inputbox( {onAddTask} ) {
     const [text, setText] = useState([])
@@ -19,13 +22,13 @@ export function Inputbox( {onAddTask} ) {
 
         return (
             <div>
-                <input
+                <TextField id="outlined-basic" label="Задача" variant="outlined"
                     type="text"
                     value={text}
                     onChange={e => setText(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Введите новую задачу..."/>
-                <button onClick={handleAddTask}>Добавить</button>
+                    placeholder="Новая задача"/>
+                <Button variant="outlined" onClick={handleAddTask}>Добавить</Button>
             </div>
         );
     }
