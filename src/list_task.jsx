@@ -1,8 +1,6 @@
-import { useState } from "react";
 
-export function TaskList() {
-    const [tasks, setTasks] = useState(['']);
 
+export function TaskList({ tasks }) {
 
     return(
         <ul className="TaskList">
