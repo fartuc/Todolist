@@ -4,6 +4,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export function TaskList({ tasks }) {
     const [checked, setChecked] = useState([0]);
@@ -39,8 +40,9 @@ export function TaskList({ tasks }) {
                         disablePadding
                     >
                         <ListItemButton>
-                            <ListItemText id={labelId} primary={value} />
+                            <ListItemText id={labelId} primary={checked.includes(value) ? <del>{value}</del> : value } />
                         </ListItemButton>
+                        <DeleteIcon sx={{ marginLeft: 37}} />
                     </ListItem>
                 );
             })}

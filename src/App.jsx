@@ -2,6 +2,7 @@ import './App.css'
 import { Inputbox } from './input_task.jsx'
 import { TaskList } from "./list_task.jsx"
 import {useState} from "react";
+import Typography from '@mui/material/Typography';
 
 function App() {
     const [tasks, setTasks] = useState([]);
@@ -15,7 +16,9 @@ function App() {
 
     return (
       <div className="App">
-          <h1>Список задач:</h1>
+          <Typography variant="h1" gutterBottom>
+              Список задач:
+          </Typography>
           <Inputbox onAddTask={addTask} />
           <TaskList tasks={tasks} />
       </div>
