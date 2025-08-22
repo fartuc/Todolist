@@ -5,8 +5,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
-export function TaskList({ tasks }) {
+export function TaskList({ tasks, onDeleteTask }) {
     const [checked, setChecked] = useState([0]);
 
     const handleToggle = (value) => () => {
@@ -20,6 +21,11 @@ export function TaskList({ tasks }) {
         }
 
         setChecked(newChecked);
+    };
+
+    const handleDelete = (value) => (event) => {
+        event.stopPropagation()
+        onDeleteTask(value);
     };
 
     return (
@@ -42,7 +48,10 @@ export function TaskList({ tasks }) {
                         <ListItemButton>
                             <ListItemText id={labelId} primary={checked.includes(value) ? <del>{value}</del> : value } />
                         </ListItemButton>
-                        <DeleteIcon sx={{ marginLeft: 37}} />
+                        <IconButton
+                        onClick={handleDelete(value)}>
+                            <DeleteIcon sx={{marginLeft: 35}}/>
+                        </IconButton>
                     </ListItem>
                 );
             })}

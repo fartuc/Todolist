@@ -7,6 +7,9 @@ import Typography from '@mui/material/Typography';
 function App() {
     const [tasks, setTasks] = useState([]);
 
+    const deleteTask = (taskToDelete) => {
+        setTasks(tasks => tasks.filter(task => task !== taskToDelete));
+    };
 
     function addTask(taskText) {
         if (taskText.trim() !== ''){
@@ -20,7 +23,7 @@ function App() {
               Список задач:
           </Typography>
           <Inputbox onAddTask={addTask} />
-          <TaskList tasks={tasks} />
+          <TaskList tasks={tasks} onDeleteTask={deleteTask} />
       </div>
     )
 }
