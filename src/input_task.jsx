@@ -3,13 +3,13 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-export function Inputbox( {onAddTask} ) {
+export function Inputbox( { onAddTask } ) {
     const [text, setText] = useState([])
 
     const handleAddTask = () => {
         if (text.trim() !== '') {
             onAddTask(text);
-            setText(""); // Очищаем input после добавления
+            setText("");
         }
     };
 

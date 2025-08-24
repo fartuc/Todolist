@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -7,50 +6,67 @@ import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 
-export function TaskList({ tasks, onDeleteTask }) {
-    const [checked, setChecked] = useState([0]);
-
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        setChecked(newChecked);
+export function TaskList({ tasks, onDeleteTask, onToggleTask }) {
+    const handleDelete = (taskId) => (event) => {
+        event.stopPropagation();
+        onDeleteTask(taskId);
     };
 
-    const handleDelete = (value) => (event) => {
-        event.stopPropagation()
-        onDeleteTask(value);
+    const handleToggle = (taskId) => (event) => {
+        onToggleTask(taskId);
     };
 
     return (
         <List dense sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            {tasks.map((value) => {
-                const labelId = `checkbox-list-secondary-label-${value}`;
+            {tasks.map((task) => {
+                const labelId = `checkbox-list-label-${task.id}`;
+
                 return (
                     <ListItem
-                        key={value}
+                        key={task.id}
                         secondaryAction={
                             <Checkbox
                                 edge="end"
-                                onChange={handleToggle(value)}
-                                checked={checked.includes(value)}
+                                onChange={handleToggle(task.id)}
+                                checked={task.completed}
                                 inputProps={{ 'aria-labelledby': labelId }}
                             />
                         }
                         disablePadding
+                        sx={{
+                            '&:hover': {
+                                backgroundColor: 'action.hover'
+                            }
+                        }}
                     >
-                        <ListItemButton>
-                            <ListItemText id={labelId} primary={checked.includes(value) ? <del>{value}</del> : value } />
+                        <ListItemButton
+                            sx={{ flex: 1 }}
+                            onClick={handleToggle(task.id)}
+                        >
+                            <ListItemText
+                                id={labelId}
+                                primary={
+                                    task.completed ?
+                                        <del style={{ color: '#999' }}>{task.text}</del> :
+                                        task.text
+                                }
+                            />
                         </ListItemButton>
+
                         <IconButton
-                        onClick={handleDelete(value)}>
-                            <DeleteIcon sx={{marginLeft: 35}}/>
+                            edge="end"
+                            aria-label="delete"
+                            onClick={handleDelete(task.id)}
+                            sx={{
+                                marginLeft: 2,
+                                color: 'error.main',
+                                '&:hover': {
+                                    backgroundColor: 'error.light',
+                                    color: 'error.contrastText'
+                                }
+                            }}
+                        >
+                            <DeleteIcon />
                         </IconButton>
                     </ListItem>
                 );
