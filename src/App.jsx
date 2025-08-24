@@ -21,6 +21,7 @@ function App() {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }, [tasks]);
 
+
     const addTask = (taskText) => {
         if (taskText.trim() !== '') {
             setTasks(tasks => [...tasks, {
