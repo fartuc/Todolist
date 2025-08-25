@@ -1,3 +1,4 @@
+import {Task, TaskListProps} from './types';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -6,19 +7,20 @@ import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 
-export function TaskList({ tasks, onDeleteTask, onToggleTask }) {
-    const handleDelete = (taskId) => (event) => {
+export function TaskList({ tasks, onDeleteTask, onToggleTask }: TaskListProps) {
+
+    const handleDelete = (taskId: number) => (event: React.MouseEvent) => {
         event.stopPropagation();
         onDeleteTask(taskId);
     };
 
-    const handleToggle = (taskId) => (event) => {
+    const handleToggle = (taskId: number) => () => {
         onToggleTask(taskId);
     };
 
     return (
         <List dense sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            {tasks.map((task) => {
+            {tasks.map((task : Task) => {
                 const labelId = `checkbox-list-label-${task.id}`;
 
                 return (

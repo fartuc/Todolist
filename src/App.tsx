@@ -1,28 +1,31 @@
-import './App.css'
-import { Inputbox } from './input_task.jsx'
-import { TaskList } from "./list_task.jsx"
+import './App.css';
+import { Inputbox } from './inputTask';
+import { TaskList } from "./listTask";
 import { useState, useEffect } from "react";
-import Typography from '@mui/material/Typography';
-
-
+import { Task } from './types';
 
 function App() {
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState<Task[]>([]);
 
+    // Загрузка задач из LocalStorage при загрузке страницы
     useEffect(() => {
         const savedTasks = localStorage.getItem('tasks');
         if (savedTasks) {
-            setTasks(JSON.parse(savedTasks));
+            try {
+                const parsedTasks: Task[] = JSON.parse(savedTasks);
+                setTasks(parsedTasks);
+            } catch (error) {
+                console.error('Error parsing tasks from localStorage:', error);
+            }
         }
     }, []);
 
-
+    // Сохранение задач в LocalStorage при каждом изменении
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks));
     }, [tasks]);
 
-
-    const addTask = (taskText) => {
+    const addTask = (taskText: string) => {
         if (taskText.trim() !== '') {
             setTasks(tasks => [...tasks, {
                 id: Date.now(),
@@ -32,11 +35,11 @@ function App() {
         }
     };
 
-    const deleteTask = (taskId) => {
+    const deleteTask = (taskId: number) => {
         setTasks(tasks => tasks.filter(task => task.id !== taskId));
     };
 
-    const toggleTask = (taskId) => {
+    const toggleTask = (taskId: number) => {
         setTasks(tasks => tasks.map(task =>
             task.id === taskId ? { ...task, completed: !task.completed } : task
         ));
@@ -44,9 +47,7 @@ function App() {
 
     return (
         <div className="App">
-            <Typography variant="h1" gutterBottom>
-                Список задач:
-            </Typography>
+            <h1>Список задач:</h1>
             <Inputbox onAddTask={addTask} />
             <TaskList
                 tasks={tasks}
@@ -54,7 +55,7 @@ function App() {
                 onToggleTask={toggleTask}
             />
         </div>
-    )
+    );
 }
 
-export default App
+export default App;
