@@ -6,16 +6,18 @@ import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import { useTasksActions } from "./useTaskStore";
 
-export function TaskList({ tasks, onDeleteTask, onToggleTask }: TaskListProps) {
+export function TaskList({ tasks }: TaskListProps) {
+    const { deleteTask, toggleTask } = useTasksActions();
 
     const handleDelete = (taskId: number) => (event: React.MouseEvent) => {
         event.stopPropagation();
-        onDeleteTask(taskId);
+        deleteTask(taskId);
     };
 
     const handleToggle = (taskId: number) => () => {
-        onToggleTask(taskId);
+        toggleTask(taskId);
     };
 
     return (

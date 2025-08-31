@@ -2,14 +2,15 @@ import { useState } from 'react'
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import {InputBoxProps} from "./types";
+import { useTasksActions } from "./useTaskStore";
 
-export function Inputbox( { onAddTask  }: InputBoxProps ) {
+export function Inputbox() {
     const [text, setText] = useState<string>("")
+    const { addTask } = useTasksActions();
 
     const handleAddTask = () => {
         if (text.trim() !== '') {
-            onAddTask(text);
+            addTask(text);
             setText("");
         }
     };
